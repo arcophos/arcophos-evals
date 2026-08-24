@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: lint and test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install package with dev extras
+        run: python -m pip install -e ".[dev]"
+      - name: Lint
+        run: ruff check .
+      - name: Test
+        run: pytest tests/
+      - name: Task resolution
+        run: |
+          python -c "from importlib.metadata import entry_points; eps=[e.name for e in entry_points(group='inspect_ai')]; assert 'arcophos_evals' in eps, eps"
+          inspect eval arcophos_evals/hob_sample --model mockllm/model --model-role grader=mockllm/model -T source=tests/fixtures.jsonl --limit 1 --log-dir /tmp/ci-logs
+
+  reference-runner:
+    name: stdlib reference runner
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      # Deliberately no pip install: the reference runner and its test
+      # must pass on a bare interpreter.
+      - name: Run reference self-test
+        run: python3 reference/test_hob_eval.py

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arcophos-evals"
+version = "0.1.0"
+description = "Evaluation harness for Arcophos health benchmarks in the HealthBench Professional compatible format: Inspect-native task packs plus a zero-dependency reference runner"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Arcophos", email = "info@arcophos.com" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = ["inspect-ai>=0.3.100"]
+
+[project.optional-dependencies]
+openai = ["openai>=1.0"]
+dev = ["pytest>=8", "ruff==0.16.4", "openai>=1.0"]
+
+[project.entry-points.inspect_ai]
+arcophos_evals = "arcophos_evals._registry"
+
+[project.urls]
+Homepage = "https://healthoptimizationbench.com"
+Repository = "https://github.com/arcophos/arcophos-evals"
+Issues = "https://github.com/arcophos/arcophos-evals/issues"
+Dataset = "https://huggingface.co/datasets/Arcophos/health-optimization-bench-sample"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

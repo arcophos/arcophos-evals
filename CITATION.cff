@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this harness or Health Optimization Bench, please cite it as below."
+title: "Arcophos Evals"
+type: software
+authors:
+  - name: "Arcophos"
+    email: "info@arcophos.com"
+    website: "https://arcophos.com"
+url: "https://healthoptimizationbench.com"
+repository-code: "https://github.com/arcophos/arcophos-evals"
+license: MIT
+date-released: "2026-08-24"
+preferred-citation:
+  type: generic
+  title: "Health Optimization Bench"
+  authors:
+    - name: "Arcophos"
+  year: 2026
+  url: "https://healthoptimizationbench.com"

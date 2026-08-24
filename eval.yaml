@@ -1,0 +1,23 @@
+# Inspect Evals Register metadata (https://github.com/UKGovernmentBEIS/inspect_evals).
+# Submission checklist: versioned arXiv URL for `paper`, pin `source.repository_commit`
+# to the release commit, attach eval logs from two models.
+title: Health Optimization Bench
+abbreviation: hob
+description: >
+  Rubric-graded evaluation of language models on current clinical evidence in
+  preventive and optimization medicine. Tasks are authored by five frontier
+  model families, cross-audited by non-author families, difficulty banded, and
+  graded blind by a judge that never sees point values or reference answers.
+  The public sample covers ten micro benches; full released sets are licensed.
+paper: ""  # versioned arXiv URL, required at submission time
+source:
+  repository_url: https://github.com/arcophos/arcophos-evals
+  repository_commit: ""  # 40-char SHA of the tagged release commit
+  maintainers:
+    - arcophos
+tags:
+  - medicine
+  - knowledge
+tasks:
+  - task_path: src/arcophos_evals/benchmarks/hob.py
+    name: hob_sample

@@ -1,0 +1,7 @@
+include AGENTS.md CLAUDE.md
+include LICENSE README.md GOVERNANCE.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md CITATION.cff
+recursive-include reference *.py *.md
+recursive-include tests *.py *.jsonl *.md
+recursive-include skills *.md
+recursive-include assets *.svg
+include eval.yaml
