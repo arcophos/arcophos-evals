@@ -100,7 +100,7 @@ CI runs `reference/test_hob_eval.py` on a bare Python 3.9 with no packages insta
 
 ## The benchmark
 
-15 frontier models from 12 labs are evaluated. The leader scores 70.9 of 100 and the field spans 66 points. Top five as of August 2026 (the live leaderboard supersedes this snapshot):
+16 frontier models from 12 labs are evaluated. The leader scores 70.9 of 100 and the field spans 66 points. Top five as of September 2026 (the live leaderboard supersedes this snapshot):
 
 | Rank | Model | Lab | Score |
 |---:|---|---|---:|
@@ -110,7 +110,7 @@ CI runs `reference/test_hob_eval.py` on a bare Python 3.9 with no packages insta
 | 4 | GPT-5.6 Sol (max) | OpenAI | 66.6 |
 | 5 | GPT-5.6 Sol (high) | OpenAI | 64.6 |
 
-The full leaderboard, per-micro-bench results, and confidence intervals are at [healthoptimizationbench.com](https://healthoptimizationbench.com).
+Claude Fable 5.1, added on 2026-09-04, scores 47.3 as served on this set because its safeguard classifier declined 97 of the 257 tasks; over the tasks it answered its mean is 75.9, and it leads the incretin evidence suite at 84.9. A declined task is graded like any other completion and earns no credit. The full leaderboard, per-micro-bench results, confidence intervals, and declined-task counts are at [healthoptimizationbench.com](https://healthoptimizationbench.com).
 
 977 tasks have been authored across 10 micro benches. 346 are released: the 89-task Incretin Evidence ranking set and 257 tasks across eight subject suites (every micro bench above except the two incretin sets; Incretin Clinical Decisions appears in the public sample but is not yet a released ranking set). A further 51 tasks form a confidential holdout that is never released (see [GOVERNANCE.md](GOVERNANCE.md)).
 
@@ -197,14 +197,25 @@ The full released sets (346 tasks) are licensed for model evaluation. Write to [
 
 ## Evaluation report
 
-Live replication runs of this harness over the 30-task public sample, August 2026. All runs
-used a single-judge panel (`gpt-4.1` via OpenRouter; the packaged default resolves the same
-model through the OpenAI API), one grading pass, judge temperature 0.
+Live replication runs of this harness over the 30-task public sample, August and September
+2026. All runs used a single-judge panel (`gpt-4.1` via OpenRouter; the packaged default
+resolves the same model through the OpenAI API), one grading pass, judge temperature 0.
 
-| model | accuracy | stderr | safety_pass | n |
-|---|---|---|---|---|
-| `moonshotai/kimi-k3` | 0.570 | 0.076 | 0.933 | 30 |
-| `openai/gpt-4o-mini` | 0.108 | 0.029 | 0.333 | 30 |
+| model | accuracy | stderr | safety_pass | n | run date |
+|---|---|---|---|---|---|
+| `anthropic/claude-fable-5.1` | 0.506 | 0.080 | 0.967 | 30 | 2026-09-01 |
+| `moonshotai/kimi-k3` | 0.570 | 0.076 | 0.933 | 30 | 2026-08-24 |
+| `openai/gpt-4o-mini` | 0.108 | 0.029 | 0.333 | 30 | 2026-08-24 |
+
+The Claude Fable 5.1 row was run on its release day through OpenRouter with the model's
+default sampling and no system prompt, which is the harness's plain chat elicitation. On 12
+of the 30 tasks the API returned a content-filter stop with a refusal notice instead of an
+answer (Anthropic's Fable 5.1 safeguard classifier, category `bio`). Those samples are
+scored by the rubric like any other completion and earn zero credit, so the 0.506 figure
+is the score of the model as served; over the 18 answered tasks the mean is 0.844. The
+refusals are deterministic per prompt and reproduce through the Claude Code CLI. A
+sample-slice number under one judge does not stand in for the leaderboard entry, which is
+elicited and graded under the full protocol.
 
 For context, the published leaderboard at
 [healthoptimizationbench.com](https://healthoptimizationbench.com) scores kimi-k3 at 59.9 on
